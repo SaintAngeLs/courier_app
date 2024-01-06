@@ -157,3 +157,93 @@ later in the process)
  - PowerShell
  - Unit Tests, Integration tests, UI tests, API tests
  - CD/CI
+
+ ## Punction
+
+Points
+
+Overall		150
+
+- [ ] Azure Devops		31
+
+- [ ] Repository		
+	Setup branch policies and security (with build)	2
+
+	Create gitflow or other flow (other flow need to be described in Read.me file	1
+
+	Prepare Read.me file	1
+
+	Use PR with at least one review (need to show in history)	2
+
+	Code history shows work was done in sprints	4
+- [ ] Board		
+	Features prepared (at least 4)	1
+
+	Create user stories that cover functionalities (for at least 4 
+
+   feature and fully fill-in)	1
+
+	Create Tasks (for at least 4 user stories and fully fill-in)	1
+
+	Create Sprints	1
+   
+Pipelines		
+	Build pipeline (yaml)	2
+	Deploy pipeline	6
+	Custom versioning	2
+	Connect with Azure(external) services	2
+	Deploy is able to update database	2
+Test		
+	Create a test suite containing full test of one features	3
+Logic		58
+FrontEnd avilable		 
+	Client => Lading page with all required elements	2
+	Cleint => login ability	2
+	Client => Create inquiry page with acceptnace (anonymous and not)	4
+	Cleint => Show all offers made from inquires (timelimit, how its behave etc..) and option to accept and not	6
+	Client => Order Status page (email and from the list)	2
+	Client => List of all orders (with adding one made anonymous and with sorting and filtering)	3
+	Company office worker => show all inquires page (with sorting and filtering)	2
+	Company office worker => details page with accept or reject option	2
+	Company office worker => show all offers page (with sorting and filtering)	2
+	Courier => show all deliveries (with filtering nad sorting)	2
+	Courier => delviery details with all operations	3
+Backend only logic		2
+	Sending emails	4
+	Sending emails periodicly logic	2
+	Auditing (headers, request, response,  audit call time and use Application Insight or other like that)	4
+	Connect to own API	3
+	Connect to API provided by lecture	3
+	Connecting to  API provided by other team	4
+	Files operation on some kind of cloud	4
+AJAX calls to make site resposnsible (or SPA)		2
+Others		55
+Authentication (OpenId/Azure/Google)		6
+AJAX calls to make site resposnsible (or SPA)		4
+Database		
+	Have indexes	2
+	Have proper table structure	2
+	POCO class differetn that Model class	2
+	EF or other configuration in fluent way or in way that will be SRP and POCO class and configuration will be separated. Attributes not allowed	2
+	Different project with DB integration tests (at least 3 integration tests)	3
+	Migration and data seed	4
+Backend (API or MVC app)		
+	Autentication of correct routes	2
+	Good extract of application features in backend	2
+	Create authorization for other team	4
+	Have swaggeger documentation (at least 50% of routes)	3
+	Postman - at least one process > locally	2
+	Use parallel in calls for the invoices	1
+	Route name convention is solid accross project	2
+Azure		
+	Sending emails	2
+	Push/pull files	2
+Tests		
+	Unit test at least at least 40% of code coverage, At least 2 integration test with own API	3
+	E2E tests (Selenium/jest/other frameworks) and UT tests (at least 3 features fully cover by it)	4
+	Create integration test for at least two scenarios	3
+Architectural		6
+Good models and domains		2
+No security concerns		2
+Using patterns (factory, builder etc..)		2
+		
