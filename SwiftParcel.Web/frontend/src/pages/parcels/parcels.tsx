@@ -2,7 +2,7 @@ import { Table, Pagination } from "flowbite-react";
 import React from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
-import { getParcels } from "../../utils/api";
+import { getDeliveries } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { ParcelDetails } from "../../components/details/parcel";
 
@@ -14,7 +14,7 @@ export default function Parcels() {
   const [loadingParcels, setLoadingParcels] = React.useState(true);
 
   React.useEffect(() => {
-    getParcels(page)
+    getDeliveries(page)
       .then((res) => {
         if (res.status === 200) {
           setParcels(res?.data);

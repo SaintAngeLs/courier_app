@@ -38,8 +38,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
                 return Enumerable.Empty<OrderDto>();
             }
 
-            documents = documents.Where(p => p.CustomerId == query.CustomerId &&
-                p.Status != OrderStatus.WaitingForDecision && p.Status != OrderStatus.Approved);
+            documents = documents.Where(p => p.CustomerId == query.CustomerId);
             var orders = await documents.ToListAsync();
             var ordersDto = orders.Select(p => p.AsDto());
 

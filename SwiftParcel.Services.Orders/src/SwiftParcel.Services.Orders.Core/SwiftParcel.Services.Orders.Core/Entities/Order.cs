@@ -27,7 +27,9 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 
 
         public Order(AggregateId id, Guid? customerId, OrderStatus status, DateTime createdAt,
-            string buyerName, string buyerEmail, Address buyerAddress, Parcel parcel = null)
+            string buyerName, string buyerEmail, Address buyerAddress, DateTime? decisionDate,
+            DateTime? pickedUpAt, DateTime? deliveredAt, DateTime? cannotDeliverAt, string cancellationReason,
+            string cannotDeliverReason, Parcel parcel = null)
         {
             Id = id;
             CustomerId = customerId;
@@ -46,19 +48,20 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 
             Parcel = parcel;
 
-            DecisionDate = null;
-            PickedUpAt = null;
-            DeliveredAt = null;
-            CannotDeliverAt = null;
-            CancellationReason = string.Empty;
-            CannotDeliverReason = string.Empty;
+            DecisionDate = decisionDate;
+            PickedUpAt = pickedUpAt;
+            DeliveredAt = deliveredAt;
+            CannotDeliverAt = cannotDeliverAt;
+            CancellationReason = cancellationReason;
+            CannotDeliverReason = cannotDeliverReason;
         }
 
         public static Order Create(AggregateId id, Guid customerId, OrderStatus status, DateTime createdAt,
             string buyerName, string buyerEmail, Address buyerAddress)
         {
             var order = new Order(id, customerId == Guid.Empty ? null : customerId,
-                        status, createdAt, buyerName, buyerEmail, buyerAddress);
+                        status, createdAt, buyerName, buyerEmail, buyerAddress, null, null, null,
+                        null, string.Empty, string.Empty);
             order.AddEvent(new OrderStateChanged(order));
 
             return order;

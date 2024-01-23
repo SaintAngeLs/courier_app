@@ -27,5 +27,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app/out ./
 ENV ASPNETCORE_URLS http://*:80
-ENV ASPNETCORE_ENVIRONMENT docker
+ENV ASPNETCORE_ENVIRONMENT production
 ENTRYPOINT ["dotnet", "SwiftParcel.Services.Identity.Api.dll"]

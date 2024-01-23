@@ -59,6 +59,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             }
             var createdAt = _dateTimeProvider.Now;
             var validTo = createdAt.AddMinutes(60);
+
             var price = await _pricingServiceClient.GetParcelDeliveryPriceAsync(customerId ?? command.CustomerId, 0.0m, 
             command.Width, command.Height, command.Depth, command.Weight, priority == Priority.High, command.AtWeekend,
             command.VipPackage);
@@ -66,6 +67,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             {
                 throw new PricingServiceException(command.ParcelId);
             }
+
             var parcel = new Parcel(command.ParcelId, command.Description, command.Width, 
             command.Height, command.Depth, command.Weight, priority, command.AtWeekend,
             pickupDate, deliveryDate, command.IsCompany, command.VipPackage,
@@ -77,13 +79,16 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             parcel.SetDestinationAddress(command.DestinationStreet, command.DestinationBuildingNumber,
                 command.DestinationApartmentNumber, command.DestinationCity, command.DestinationZipCode,
                 command.DestinationCountry);
-
             parcel.SetPriority(priority);
-
             parcel.SetAtWeekend(command.AtWeekend);
+            parcel.SetIsCompany(command.IsCompany);
+            parcel.SetVipPackage(command.VipPackage);
 
             await _parcelRepository.AddAsync(parcel);
-            await _lecturerApiServiceClient.PostInquiryAsync(AddParcel.Generate(parcel));
+
+            var lecturerApiTask = _lecturerApiServiceClient.PostInquiryAsync(AddParcel.Generate(parcel));
+            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+            await Task.WhenAny(lecturerApiTask, timeoutTask);
 
             await _messageBroker.PublishAsync(new ParcelAdded(command.ParcelId));
         }

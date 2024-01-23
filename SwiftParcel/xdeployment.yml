@@ -1,0 +1,96 @@
+version: "3.7"
+
+services:
+  # Microservices
+  identity-service:
+    image: adrianvsaint/swift-parcel-identity-service
+    container_name: identity-service
+    restart: unless-stopped
+    ports:
+      - 5292:80
+    networks:
+      - swiftparcel
+
+  web:
+    image: adrianvsaint/swift-parcel-web
+    container_name: swiftparcel-web
+    restart: unless-stopped
+    ports:
+      - 3001:80
+    networks:
+      - swiftparcel
+
+  deliveries-service:
+    image: adrianvsaint/swift-parcel-deliveries-service
+    container_name: deliveries-service
+    restart: unless-stopped
+    ports:
+      - 5003:80
+    networks:
+      - swiftparcel
+
+  parcels-service:
+    image: adrianvsaint/swift-parcel-parcels-service
+    container_name: parcels-service
+    restart: unless-stopped
+    ports:
+      - 5007:80
+    networks:
+      - swiftparcel
+
+  pricing-service:
+    image: adrianvsaint/swift-parcel-pricing-service
+    container_name: pricing-service
+    restart: unless-stopped
+    ports:
+      - 5008:80
+    networks:
+      - swiftparcel
+
+  customers-service:
+    image: adrianvsaint/swift-parcel-customers-service
+    container_name: customers-service
+    restart: unless-stopped
+    ports:
+      - 5002:80
+    networks:
+      - swiftparcel
+
+  orders-service:
+    image: adrianvsaint/swift-parcel-orders-service
+    container_name: orders-service
+    restart: unless-stopped
+    ports:
+      - 5006:80
+    networks:
+      - swiftparcel
+
+  lecturer-api-service:
+    image: adrianvsaint/swift-parcel-external-api-lecturer-service
+    container_name: lecturer-api-service
+    restart: unless-stopped
+    ports:
+      - 5004:80
+    networks:
+      - swiftparcel
+
+  api-gateway:
+    image: adrianvsaint/swift-parcel-apigateway-service
+    container_name: api-gateway
+    restart: unless-stopped
+    environment:
+      - NTRADA_CONFIG=ntrada.yml
+    ports:
+      - 5000:80
+    networks:
+      - swiftparcel
+
+networks:
+  swiftparcel:
+    name: swiftparcel-network
+
+volumes:
+  mongo:
+    driver: local
+  redis:
+    driver: local

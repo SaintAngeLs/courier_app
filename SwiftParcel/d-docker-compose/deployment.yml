@@ -1,0 +1,225 @@
+  version: "3.7"
+
+  services:
+    # Microservices
+    identity-service:
+      image: adrianvsaint/swift-parcel-identity-service:latest
+      container_name: identity-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 5004:80
+      networks:
+        - swiftparcel
+
+    web:
+      image: adrianvsaint/swift-parcel-web:latest
+      container_name: swiftparcel-web
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 3001:80
+      networks:
+        - swiftparcel
+
+    deliveries-service:
+      image: adrianvsaint/swift-parcel-deliveries-service:latest
+      container_name: deliveries-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 5003:80
+      networks:
+        - swiftparcel
+
+    parcels-service:
+      image: adrianvsaint/swift-parcel-parcels-service:latest
+      container_name: parcels-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 5007:80
+      networks:
+        - swiftparcel
+
+    pricing-service:
+      image: adrianvsaint/swift-parcel-pricing-service:latest
+      container_name: pricing-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 5008:80
+      networks:
+        - swiftparcel
+
+    customers-service:
+      image: adrianvsaint/swift-parcel-customers-service:latest
+      container_name: customers-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 5002:80
+      networks:
+        - swiftparcel
+
+    orders-service:
+      image: adrianvsaint/swift-parcel-orders-service:latest
+      container_name: orders-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 5006:80
+      networks:
+        - swiftparcel
+
+    lecturer-api-service:
+      image: adrianvsaint/swift-parcel-external-api-lecturer-service:latest
+      container_name: lecturer-api-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      ports:
+        - 5005:80
+      networks:
+        - swiftparcel
+
+    api-gateway:
+      image: adrianvsaint/swift-parcel-apigateway-service:latest
+      container_name: api-gateway
+      environment:
+      - ASPNETCORE_ENVIRONMENT=production
+      restart: unless-stopped
+      environment:
+        - NTRADA_CONFIG=ntrada.yml
+      ports:
+        - 5000:80
+      networks:
+        - swiftparcel
+
+    # Microinfrastructure
+    consul:
+      image: consul:1.9.5
+      container_name: consul
+      restart: unless-stopped
+      networks:
+        - swiftparcel
+      ports:
+        - 8500:8500
+
+    fabio:
+      image: fabiolb/fabio
+      container_name: fabio
+      restart: unless-stopped
+      environment:
+        - FABIO_REGISTRY_CONSUL_ADDR=consul:8500
+      networks:
+        - swiftparcel
+      ports:
+        - 9998:9998
+        - 9999:9999
+
+    grafana:
+      image: grafana/grafana
+      container_name: grafana
+      restart: unless-stopped
+      networks:
+        - swiftparcel
+      ports:
+        - 3000:3000
+
+    jaeger:
+      image: jaegertracing/all-in-one
+      container_name: jaeger
+      restart: unless-stopped
+      networks:
+        - swiftparcel
+      ports:
+        - 5775:5775/udp
+        - 5778:5778
+        - 6831:6831/udp
+        - 6832:6832/udp
+        - 9411:9411
+        - 14268:14268
+        - 16686:16686
+
+    rabbitmq:
+      build: ./rabbitmq
+      container_name: rabbitmq
+      restart: unless-stopped
+      networks:
+        - swiftparcel
+      ports:
+        - 5672:5672
+        - 15672:15672
+        - 15692:15692
+        - 25672:25672
+        - 35672:35672
+        - 45672:45672
+        - 55672:55672
+      # volumes: 
+      #   - rabbitmq:/var/lib/rabbitmq
+
+    prometheus:
+      image: prom/prometheus
+      container_name: prometheus
+      restart: unless-stopped
+      networks:
+        - swiftparcel
+      ports:
+        - 9090:9090
+      volumes:
+        - prometheus-config:/etc/prometheus
+
+    redis:
+      image: redis
+      container_name: redis
+      restart: unless-stopped
+      networks:
+        - swiftparcel
+      ports:
+        - 6379:6379
+      volumes:
+        - redis:/data
+
+    seq:
+      image: datalust/seq
+      container_name: seq
+      restart: unless-stopped
+      environment:
+        - ACCEPT_EULA=Y
+      networks:
+        - swiftparcel
+      ports:
+        - 5341:80
+
+    vault:
+      image: vault:1.9.0
+      container_name: vault
+      restart: unless-stopped
+      environment:
+        - VAULT_ADDR=http://127.0.0.1:8200
+        - VAULT_DEV_ROOT_TOKEN_ID=secret
+      cap_add:
+        - IPC_LOCK
+      networks:
+        - swiftparcel
+      ports:
+        - 8200:8200
+
+  networks:
+    swiftparcel:
+      name: swiftparcel-network
+
+  volumes:
+    mongo:
+      driver: local
+    redis:
+      driver: local
+    prometheus-config: {}

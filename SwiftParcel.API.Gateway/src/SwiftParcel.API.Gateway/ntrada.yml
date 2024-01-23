@@ -42,8 +42,8 @@ extensions:
       - Trace-ID
       - Total-Count
 
-  jwt:
-    issuerSigningKey: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5ODYwMTg3NSwiaWF0IjoxNjk4NjAxODc1fQ.nxJlaEy9xNO4noVh84qD9BSoLvjq1xu4LGhwBaEF9Ec
+  jwt: 
+    issuerSigningKey: eiquief5phee9pazo0Faegaez9gohThailiur5woy2befiech1oarai4aiLi6ahVecah3ie9Aiz6Peij
     validIssuer: swiftparcel
     validateAudience: false
     validateIssuer: true
@@ -75,30 +75,30 @@ modules:
           
 
   identity:
-    path: identity
+    path: /identity
     routes:
       - upstream: /users/{userId}
         method: GET
         use: downstream
         downstream: identity-service/users/{userId}
         auth: true
-        claims:
-          role: admin
+        # claims:
+        #   role: admin
     
       - upstream: /me
         method: GET
         use: downstream
         downstream: identity-service/me
         auth: true
-    
+
       - upstream: /sign-up
         method: POST
         use: downstream
         downstream: identity-service/sign-up
         auth: false
-        resourceId:
-          property: userId
-          generate: true
+        # resourceId:
+        #   property: userId
+        #   generate: true
     
       - upstream: /sign-in
         method: POST
@@ -107,48 +107,52 @@ modules:
         auth: false
         responseHeaders:
           content-type: application/json
-    
+
     services:
       identity-service:
         localUrl: localhost:5004
         url: identity-service
       
   orders:
-    path: orders
+    path: /orders
     routes:
-      - upstream: /
+      - upstream: /customerId={customerId}
         method: GET
         use: downstream
-        downstream: orders-service/orders?customerId=@user_id
+        downstream: orders-service/orders?customerId={customerId}
         auth: true
+        bind:
+          - customerId:{customerId}
 
       - upstream: /requests
         method: GET
         use: downstream
-        downstream: orders-service/orders/requests?customerId=@user_id
+        downstream: orders-service/orders/requests
         auth: true
-
-      - upstream: /office-worker/pending
-        method: GET
-        use: downstream
-        downstream: orders-service/orders/office-worker/pending
-        auth: true
-        claims:
-          role: officeworker
 
       - upstream: /office-worker
         method: GET
         use: downstream
         downstream: orders-service/orders/office-worker
         auth: true
-        claims:
-          role: officeworker
+        # claims:
+        #   role: officeworker
+
+      - upstream: /office-worker/pending
+        method: GET
+        use: downstream
+        downstream: orders-service/orders/office-worker/pending
+        auth: true
+        # claims:
+        #   role: officeworker
     
       - upstream: /{orderId}
         method: GET
         use: downstream
         downstream: orders-service/orders/{orderId}
         auth: true
+        bind:
+          - orderId:{orderId}
       
       - upstream: /{orderId}/status
         method: GET
@@ -172,19 +176,34 @@ modules:
         downstream: orders-service/orders/{orderId}/customer
         auth: true
         bind:
-          - customerId:@user_id
           - orderId:{orderId}
 
-      - upstream: /{orderId}/approve
+      - upstream: /{orderId}/office-worker/approve
         method: PUT
         use: downstream
-        downstream: orders-service/orders/{orderId}/approve
+        downstream: orders-service/orders/{orderId}/office-worker/approve
+        auth: true
+        bind:
+          - orderId:{orderId}
+
+      - upstream: /{orderId}/office-worker/cancel
+        method: PUT
+        use: downstream
+        downstream: orders-service/orders/{orderId}/office-worker/cancel
+        auth: true
+        bind:
+          - orderId:{orderId}
+
+      - upstream: /{orderId}/confirm
+        method: POST
+        use: downstream
+        downstream: orders-service/orders/{orderId}/confirm
         auth: true
         bind:
           - orderId:{orderId}
 
       - upstream: /{orderId}/cancel
-        method: PUT
+        method: DELETE
         use: downstream
         downstream: orders-service/orders/{orderId}/cancel
         auth: true
@@ -197,7 +216,7 @@ modules:
         url: orders-service
 
   customers:
-    path: customers
+    path: /customers
     routes:
       - upstream: /
         method: GET
@@ -218,8 +237,8 @@ modules:
         use: downstream
         downstream: customers-service/customers/{customerId}
         auth: true
-        claims:
-          role: admin
+        # claims:
+        #   role: admin
     
       - upstream: /{customerId}/state
         method: GET
@@ -233,11 +252,11 @@ modules:
         method: POST
         use: downstream
         downstream: customers-service/customers
-        bind:
-          - customerId:@user_id
-        auth: true
-        payload: create_customer
-        schema: create_customer.schema
+        # bind:
+        #   - customerId:@user_id
+        # auth: true
+        # payload: create_customer
+        # schema: create_customer.schema
     
       - upstream: /{customerId}/state/{state}
         method: PUT
@@ -258,21 +277,23 @@ modules:
       
  
   parcels:
-    path: parcels
+    path: /parcels
     routes:
-      - upstream: /
+      - upstream: /customerId={customerId}
         method: GET
         use: downstream
-        downstream: parcels-service/parcels?customerId=@user_id
+        downstream: parcels-service/parcels?customerId={customerId}
         auth: true
+        bind:
+          - customerId:{customerId}
 
-      - upstream: /
+      - upstream: /office-worker
         method: GET
         use: downstream
         downstream: parcels-service/parcels/office-worker
         auth: true
-        claims:
-          role: officeworker
+        # claims:
+        #   role: officeworker
     
       - upstream: /{parcelId}
         method: GET
@@ -284,7 +305,7 @@ modules:
         method: GET
         use: downstream
         downstream: parcels-service/parcels/{parcelId}/offers
-        auth: true  
+        auth: false  
     
       - upstream: /
         method: POST
@@ -303,7 +324,7 @@ modules:
         url: parcels-service
 
   pricing:
-    path: pricing
+    path: /pricing
     routes:
       - upstream: /
         method: GET
@@ -317,41 +338,40 @@ modules:
         url: pricing-service
 
   deliveries:
-    path: deliveries
+    path: /deliveries
     routes:
       - upstream: /{deliveryId}
         method: GET
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}
         auth: true
-        claims:
-          role: courier
+        # claims:
+        #   role: courier
 
-      - upstream: /
+      - upstream: /courierId={courierId}
         method: GET
         use: downstream
-        downstream: deliveries-service/deliveries?courierId=@user_id
+        downstream: deliveries-service/deliveries?courierId={courierId}
         auth: true
-        claims:
-          role: courier
+        bind:
+          - courierId:{courierId}
+        # claims:
+        #   role: courier
           
       - upstream: /pending
         method: GET
         use: downstream
         downstream: deliveries-service/deliveries/pending
         auth: true
-        claims:
-          role: courier
+        # claims:
+        #   role: courier
     
-      - upstream: /
+      - upstream: /{deliveryId}/courier
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/courier
         auth: true
-        claims:
-          role: courier
         bind:
-          - courierId:@user_id
           - deliveryId:{deliveryId}
     
       - upstream: /{deliveryId}/fail
@@ -359,30 +379,30 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/fail
         auth: true
-        claims:
-          role: courier
         bind:
           - deliveryId:{deliveryId}
+        # claims:
+        #   role: courier
     
       - upstream: /{deliveryId}/complete
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/complete
         auth: true
-        claims:
-          role: courier
         bind:
           - deliveryId:{deliveryId}
+        # claims:
+        #   role: courier
 
       - upstream: /{deliveryId}/pick-up
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/pick-up
         auth: true
-        claims:
-          role: courier
         bind:
           - deliveryId:{deliveryId}
+        # claims:
+        #   role: courier
     
     
     services:

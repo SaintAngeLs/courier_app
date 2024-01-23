@@ -56,7 +56,7 @@ namespace src.SwiftParcel.Services.Identity.Api
                         .Post<SignUp>("sign-up", async (cmd, ctx) =>
                         {
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
-                            await ctx.Response.Created("identity/me");
+                            await ctx.Response.Created("identity/me", cmd.UserId);
                         })
                         .Post<SignUpGoogle>("google-sign-up", async (cmd, ctx) => 
                         {

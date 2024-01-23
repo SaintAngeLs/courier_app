@@ -8,7 +8,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
     {
         public static Order AsEntity(this OrderDocument document)
             => new Order(document.Id, document.CustomerId, document.Status, document.OrderRequestDate,
-                document.BuyerName, document.BuyerEmail, document.BuyerAddress, document.Parcel);
+                document.BuyerName, document.BuyerEmail, document.BuyerAddress, 
+                document.DecisionDate, document.PickedUpAt, document.DeliveredAt, document.CannotDeliverAt, 
+                document.CancellationReason, document.CannotDeliverReason, document.Parcel);
 
         public static OrderDocument AsDocument(this Order entity)
             => new OrderDocument

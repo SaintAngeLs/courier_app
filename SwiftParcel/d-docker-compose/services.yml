@@ -1,27 +1,23 @@
-version: "1.0"
+version: "3.7"
 
 services:
 
   identity-service:
-    image: apa/swiftparcel.services.identity
+    image: adrianvsaint/swift-parcel-identity-service
     container_name: identity-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
     restart: unless-stopped
     ports:
-      - 5292:80
+      - 5005:80
     networks:
       - swiftparcel
 
-  availability-service:
-    image: apa/swiftparcel.services.availability
-    container_name: availability-service
-    restart: unless-stopped
-    ports:
-      - 5001:80 
-    networks:
-      - swiftparcel
   web:
-    image: apa/swiftparcel.web
+    image: adrianvsaint/swift-parcel-web
     container_name: swiftparcel-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
     restart: unless-stopped
     ports:
       - 3001:80 
@@ -29,8 +25,10 @@ services:
       - swiftparcel
       
   deliveries-service:
-    image: apa/swiftparcel.services.deliveries
+    image: adrianvsaint/swift-parcel-deliveries-service
     container_name: deliveries-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
     restart: unless-stopped
     ports:
       - 5003:80
@@ -38,8 +36,10 @@ services:
       - swiftparcel
 
   parcels-service:
-    image: apa/swiftparcel.services.parcels
+    image: adrianvsaint/swift-parcel-parcels-service
     container_name: parcels-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
     restart: unless-stopped
     ports:
       - 5007:80
@@ -47,8 +47,10 @@ services:
       - swiftparcel
   
   pricing-service:
-    image: apa/swiftparcel.services.pricing
+    image: adrianvsaint/swift-parcel-pricing-service
     container_name: pricing-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
     restart: unless-stopped
     ports:
       - 5008:80
@@ -56,8 +58,10 @@ services:
       - swiftparcel
 
   customers-service:
-    image: apa/swiftparcel.services.customers
+    image: adrianvsaint/swift-parcel-customers-service
     container_name: customers-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
     restart: unless-stopped
     ports:
       - 5002:80
@@ -65,11 +69,37 @@ services:
       - swiftparcel
 
   orders-service:
-    image: apa/pacco.services.orders
+    image: adrianvsaint/swift-parcel-orders-service
     container_name: orders-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
     restart: unless-stopped
     ports:
       - 5006:80
+    networks:
+      - swiftparcel
+
+  lecturer-api-service:
+    image: adrianvsaint/swift-parcel-external-api-lecturer-service
+    container_name: lecturer-api-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
+    restart: unless-stopped
+    ports:
+      - 5005:80
+    networks:
+      - swiftparcel
+
+  api-gateway:
+    image: adrianvsaint/swift-parcel-apigateway-service
+    container_name: api-gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
+    restart: unless-stopped
+    environment:
+      - NTRADA_CONFIG=ntrada.yml
+    ports:
+      - 5000:80
     networks:
       - swiftparcel
 

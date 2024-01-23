@@ -1,0 +1,162 @@
+{
+    "app": {
+      "name": "SwiftParcel Lecturer API Service",
+      "service": "lecturer-api-service",
+      "version": "1"
+    },
+    "consul": {
+      "enabled": true,
+      "url": "http://localhost:8500",
+      "service": "lecturer-api-service",
+      "address": "docker.for.win.localhost",
+      "port": "5013",
+      "pingEnabled": true,
+      "pingEndpoint": "ping",
+      "pingInterval": 3,
+      "removeAfterInterval": 3
+    },
+    "fabio": {
+      "enabled": false,
+      "url": "http://localhost:9999",
+      "service": "lecturer-api-service"
+    },
+    "httpClient": {
+      "type": "",
+      "retries": 3,
+      "services": {
+        "lecturer-api": "https://mini.currier.api.snet.com.pl",
+        "lecturer-api-identity": "https://indentitymanager.snet.com.pl/connect/token"
+      },
+      "token": "dGVhbTJkOkVBQUE1MEI4LTkwQ0ItNDM2RS05ODY0LTRCQzc1QjU2RjNCRQ==",
+      "requestMasking": {
+        "enabled": true,
+        "maskTemplate": "*****"
+      }
+    },
+    "AllowedHosts": "*",
+    "vault": {
+      "enabled": false,
+      "url": "http://127.0.0.1:8200",
+      "authType": "userpass",
+      "token": "secret",
+      "username": "user",
+      "password": "piotr-amadeusz-andrii-2023",
+      "dbusername": "andrii-courier-db-user",
+      "kv": {
+        "enabled": true,
+        "engineVersion": 2,
+        "mountPoint": "secret",
+        "path": "lecturer-api-service/settings"
+      },
+      "pki": {
+        "enabled": false,
+        "roleName": "lecturer-api-service",
+        "commonName": "lecturer-api-service.swiftparcel.com"
+      },
+      "lease": {
+        "mongo": {
+          "type": "database",
+          "roleName": "lecturer-api-service",
+          "enabled": true,
+          "autoRenewal": true,
+          "templates": {
+            "connectionString": "mongodb+srv://andrii-courier-db-user:piotr-amadeusz-andrii-2023@cluster0.br51nsv.mongodb.net/?retryWrites=true&w=majority"
+          }
+        }
+      }
+    },
+    "logger": {
+      "level": "information",
+      "excludePaths": ["/", "/ping", "/metrics"],
+      "excludeProperties": [
+        "api_key",
+        "access_key",
+        "ApiKey",
+        "ApiSecret",
+        "ClientId",
+        "ClientSecret",
+        "ConnectionString",
+        "Password",
+        "Email",
+        "Login",
+        "Secret",
+        "Token"
+      ],
+      "console": {
+        "enabled": true
+      },
+      "elk": {
+        "enabled": false,
+        "url": "http://localhost:9200"
+      },
+      "file": {
+        "enabled": true,
+        "path": "logs/logs.txt",
+        "interval": "day"
+      },
+      "seq": {
+        "enabled": true,
+        "url": "http://localhost:5341",
+        "apiKey": "secret"
+      },
+      "tags": {}
+    },
+    "swagger": {
+      "enabled": true,
+      "reDocEnabled": false,
+      "name": "v1",
+      "title": "API",
+      "version": "v1",
+      "routePrefix": "docs",
+      "includeSecurity": true
+    },
+    
+    "mongo": {
+      "connectionString": "mongodb+srv://andrii-courier-db-user:piotr-amadeusz-andrii-2023@cluster0.br51nsv.mongodb.net/?retryWrites=true&w=majority",
+      "database": "lecturer-api-service",
+      "seed": false
+    },
+    "rabbitMq": {
+      "connectionName": "lecturer-api-service",
+      "retries": 3,
+      "retryInterval": 2,
+      "conventionsCasing": "snakeCase",
+      "logger": {
+        "enabled": true
+      },
+      "username": "guest",
+      "password": "guest",
+      "virtualHost": "/",
+      "port": 5672,
+      "hostnames": [
+        "localhost"
+      ],
+      "requestedConnectionTimeout": "00:00:30",
+      "requestedHeartbeat": "00:01:00",
+      "socketReadTimeout": "00:00:30",
+      "socketWriteTimeout": "00:00:30",
+      "continuationTimeout": "00:00:20",
+      "handshakeContinuationTimeout": "00:00:10",
+      "networkRecoveryInterval": "00:00:05",
+      "exchange": {
+        "declare": true,
+        "durable": true,
+        "autoDelete": false,
+        "type": "topic",
+        "name": "identity"
+      },
+      "queue": {
+        "declare": true,
+        "durable": true,
+        "exclusive": false,
+        "autoDelete": false,
+        "template": "lecturer-api-service/{{exchange}}.{{message}}"
+      },
+      "context": {
+        "enabled": true,
+        "header": "message_context"
+      },
+      "spanContextHeader": "span_context"
+    }
+  }
+  
