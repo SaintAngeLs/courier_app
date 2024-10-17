@@ -39,7 +39,7 @@ namespace SwiftParcel.Services.Parcels.Api
                         .Get<GetParcel, ParcelDto>("parcels/{parcelId}")
                         .Get<GetOffers, IEnumerable<ExpirationStatusDto>>("parcels/{parcelId}/offers")
                         .Post<AddParcel>("parcels",
-                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"parcels/{cmd.ParcelId}/offers"))
+                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"parcels/{cmd.ParcelId}/offers", cmd.ParcelId))
                         .Delete<DeleteParcel>("parcels/{parcelId}")
                     ))
                 .UseLogging()

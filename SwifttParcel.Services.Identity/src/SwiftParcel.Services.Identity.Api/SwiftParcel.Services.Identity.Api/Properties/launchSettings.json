@@ -19,7 +19,7 @@
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "sslPort": 44300,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

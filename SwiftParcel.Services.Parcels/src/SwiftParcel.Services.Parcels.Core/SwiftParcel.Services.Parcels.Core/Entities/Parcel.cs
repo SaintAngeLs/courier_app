@@ -205,6 +205,8 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public void SetAtWeekend(bool atWeekend) => AtWeekend = atWeekend;
 
-        
+        public void SetIsCompany(bool isCompany) => IsCompany = isCompany;
+
+        public void SetVipPackage(bool vipPackage) => VipPackage = vipPackage;
     }
 }

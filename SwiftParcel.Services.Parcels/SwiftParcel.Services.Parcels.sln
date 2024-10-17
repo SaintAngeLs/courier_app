@@ -7,27 +7,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{676BEB4D-578
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Parcels.Api", "SwiftParcel.Services.Parcels.Api", "{DA4A44B7-960C-4E6D-AC68-EF00868B61FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Parcels.Api", "src\SwiftParcel.Services.Parcels.Api\SwiftParcel.Services.Parcels.Api\SwiftParcel.Services.Parcels.Api.csproj", "{142357CB-BD9F-40B8-9DDD-825D8F7A2359}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Parcels.Api", "src\SwiftParcel.Services.Parcels.Api\SwiftParcel.Services.Parcels.Api\SwiftParcel.Services.Parcels.Api.csproj", "{142357CB-BD9F-40B8-9DDD-825D8F7A2359}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Parcels.Application", "SwiftParcel.Services.Parcels.Application", "{8377E9C0-B395-4885-BBCD-0825A86E576D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Parcels.Application", "src\SwiftParcel.Services.Parcels.Application\SwiftParcel.Services.Parcels.Application\SwiftParcel.Services.Parcels.Application.csproj", "{E3ED79DA-99CB-4720-B698-5D255840B9EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Parcels.Application", "src\SwiftParcel.Services.Parcels.Application\SwiftParcel.Services.Parcels.Application\SwiftParcel.Services.Parcels.Application.csproj", "{E3ED79DA-99CB-4720-B698-5D255840B9EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Parcels.Core", "SwiftParcel.Services.Parcels.Core", "{355ED247-1070-4DE4-BB87-148538CA28AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Parcels.Core", "src\SwiftParcel.Services.Parcels.Core\SwiftParcel.Services.Parcels.Core\SwiftParcel.Services.Parcels.Core.csproj", "{DF4B8924-6E29-468A-98B0-B3CC5B42FF92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Parcels.Core", "src\SwiftParcel.Services.Parcels.Core\SwiftParcel.Services.Parcels.Core\SwiftParcel.Services.Parcels.Core.csproj", "{DF4B8924-6E29-468A-98B0-B3CC5B42FF92}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Parcels.Infrastructure", "SwiftParcel.Services.Parcels.Infrastructure", "{BE086060-031B-48E4-984A-95518F25E153}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Parcels.Infrastructure", "src\SwiftParcel.Services.Parcels.Infrastructure\SwiftParcel.Services.Parcels.Infrastructure\SwiftParcel.Services.Parcels.Infrastructure.csproj", "{098CDE85-D73E-4FBC-8349-742411248CA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Parcels.Infrastructure", "src\SwiftParcel.Services.Parcels.Infrastructure\SwiftParcel.Services.Parcels.Infrastructure\SwiftParcel.Services.Parcels.Infrastructure.csproj", "{098CDE85-D73E-4FBC-8349-742411248CA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5013E664-BF01-4FFB-9A4B-8840D57F61B5}"
+	ProjectSection(SolutionItems) = preProject
+		app.http = app.http
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{142357CB-BD9F-40B8-9DDD-825D8F7A2359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -46,6 +48,9 @@ Global
 		{098CDE85-D73E-4FBC-8349-742411248CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{098CDE85-D73E-4FBC-8349-742411248CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{098CDE85-D73E-4FBC-8349-742411248CA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DA4A44B7-960C-4E6D-AC68-EF00868B61FB} = {676BEB4D-578A-41D1-A70C-1B59E357237E}

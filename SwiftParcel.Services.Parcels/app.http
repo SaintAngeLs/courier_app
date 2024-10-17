@@ -1,0 +1,50 @@
+@ParcelsApi = http://localhost:5007
+
+POST {{ParcelsApi}}/parcels
+Content-Type: application/json
+
+{
+  "ParcelId": "00000000-0000-0000-0000-000000000000",
+  "CustomerId": "86b80e0c-167e-452f-af8c-a7bf6267b208",
+  "Description": "Please don't throw",
+  "Width": 0.5,
+  "Height": 0.5,
+  "Depth": 0.5,
+  "Weight": 0.5,
+  "SourceStreet": "Plac Politechniki",
+  "SourceBuildingNumber": "21",
+  "SourceApartmentNumber": "37",
+  "SourceCity": "Warsaw",
+  "SourceZipCode": "00-303",
+  "SourceCountry": "Poland",
+  "DestinationStreet": "Koszykowa",
+  "DestinationBuildingNumber": "3",
+  "DestinationApartmentNumber": null,
+  "DestinationCity": "Warsaw",
+  "DestinationZipCode": "00-323",
+  "DestinationCountry": "Poland",
+  "Priority": "High",
+  "AtWeekend": true,
+  "PickupDate": "2024-01-28T12:35:56.450Z",
+  "DeliveryDate": "2024-01-30T12:35:56.450Z",
+  "IsCompany": true,
+  "VipPackage": true
+}
+
+###
+
+GET {{ParcelsApi}}/parcels/8cb8912b-2a7d-4976-9dcd-beb1ecb702b4/offers
+
+###
+
+GET {{ParcelsApi}}/parcels/8cb8912b-2a7d-4976-9dcd-beb1ecb702b4
+
+###
+
+GET {{ParcelsApi}}/parcels?customerId=86b80e0c-167e-452f-af8c-a7bf6267b208
+
+###
+
+GET {{ParcelsApi}}/parcels/office-worker
+
+###

@@ -4,7 +4,7 @@ import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { Loader } from "../components/loader";
 // import Stats from "../components/stats";
-import { getCoordinates, getParcel, updateParcel } from "../utils/api";
+import {getParcel, updateParcel } from "../utils/api";
 import GoogleMapReact from "google-map-react";
 
 import { IoLocationSharp } from "react-icons/io5";
@@ -41,20 +41,20 @@ export default function Deliveries() {
     }
   }, []);
 
-  React.useEffect(() => {
-    if (parcel) {
-      getCoordinates(parcel?.receiverAddress).then((res) => {
-        if (res?.status === 200 && res?.data?.length > 0) {
-          const { lat, lon, display_name } = res?.data[0];
-          setLocation({
-            center: { lat: parseFloat(lat), lng: parseFloat(lon) },
-            name: display_name,
-            sName: parcel?.receiverAddress,
-          });
-        }
-      });
-    }
-  }, [parcel]);
+  // React.useEffect(() => {
+  //   if (parcel) {
+  //     getCoordinates(parcel?.receiverAddress).then((res) => {
+  //       if (res?.status === 200 && res?.data?.length > 0) {
+  //         const { lat, lon, display_name } = res?.data[0];
+  //         setLocation({
+  //           center: { lat: parseFloat(lat), lng: parseFloat(lon) },
+  //           name: display_name,
+  //           sName: parcel?.receiverAddress,
+  //         });
+  //       }
+  //     });
+  //   }
+  // }, [parcel]);
 
   const LocationPin = ({ text }: any) => (
     <div style={{ display: "flex", alignItems: "center", width: "180px" }}>

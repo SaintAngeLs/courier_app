@@ -1,4 +1,4 @@
-import {
+  import {
   Alert,
   Button,
   Label,
@@ -16,6 +16,21 @@ interface LoginModalProps {
   show: boolean;
   setShow: (show: boolean) => void;
 }
+
+const FunctionLink = ({ onClick, children, className }) => {
+  const handleClick = (event : any) => {
+    event.preventDefault();
+    if (onClick) {
+      onClick();
+    }
+  };
+
+  return (
+    <a href="#" onClick={handleClick} className={className}>
+      {children}
+    </a>
+  );
+};
 
 export function LoginModal(props: LoginModalProps) {
   const close = () => {
@@ -39,6 +54,7 @@ export function LoginModal(props: LoginModalProps) {
     login(email, password)
       .then(async (res) => {
         console.log(res)
+        
         saveUserInfo(res);
         close();
         // if (res.status === 200) {
@@ -116,14 +132,23 @@ export function LoginModal(props: LoginModalProps) {
                 )}
               </div>
               <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                Not registered?{" "}
-                <Link
-                  to="/register"
-                  className="text-blue-700 hover:underline dark:text-blue-500"
-                >
-                  Create account
-                </Link>
-              </div>
+                  Not registered?{" "}
+                  <Link
+                    to="/register"
+                    className="text-blue-700 hover:underline dark:text-blue-500"
+                  >
+                    Create account
+                  </Link>
+                </div>
+                <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+                  Not want to create account?{" "}
+                  <FunctionLink
+                    onClick={close}
+                    className="text-blue-700 hover:underline dark:text-blue-500"
+                  >
+                    Continue as anonymous
+                  </FunctionLink>
+                </div>
             </div>
           </form>
         </Modal.Body>

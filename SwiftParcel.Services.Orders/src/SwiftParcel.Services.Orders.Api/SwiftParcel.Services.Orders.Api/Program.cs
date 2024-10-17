@@ -40,7 +40,7 @@ namespace SwiftParcel.Services.Orders.Api
                         .Get<GetOrderStatus, OrderStatusDto>("orders/{orderId}/status")
                         .Delete<DeleteOrder>("orders/{orderId}")
                         .Post<CreateOrder>("orders",
-                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}/status"))
+                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}/status", cmd.OrderId))
                         .Post<AddCustomerToOrder>("orders/{orderId}/customer",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}"))
                         .Put<ApproveOrderOfficeWorker>("orders/{orderId}/office-worker/approve")
